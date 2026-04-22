@@ -1,0 +1,42 @@
+{
+  "name": "verse-highlighter",
+  "displayName": "Verse Language",
+  "description": "Syntax highlighting for the Verse programming language",
+  "version": "0.1.0",
+  "publisher": "lucasdower",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LucasDower/VerseHighlighter"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Themes"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "verse",
+        "aliases": ["Verse", "verse"],
+        "extensions": [".verse"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "verse",
+        "scopeName": "source.verse",
+        "path": "./syntaxes/verse.tmLanguage.json"
+      }
+    ],
+    "themes": [
+      {
+        "label": "Verse Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/verse-dark-color-theme.json"
+      }
+    ]
+  }
+}

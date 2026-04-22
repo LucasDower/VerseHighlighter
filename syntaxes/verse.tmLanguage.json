@@ -1,0 +1,238 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Verse",
+  "scopeName": "source.verse",
+  "patterns": [
+    { "include": "#block-comment" },
+    { "include": "#line-comment" },
+    { "include": "#string" },
+    { "include": "#char" },
+    { "include": "#path-literal" },
+    { "include": "#number" },
+    { "include": "#specifier" },
+    { "include": "#keyword-storage" },
+    { "include": "#keyword-control" },
+    { "include": "#keyword-operator" },
+    { "include": "#type-builtin" },
+    { "include": "#constant-language" },
+    { "include": "#constant-numeric-named" },
+    { "include": "#type-declaration" },
+    { "include": "#function-declaration" },
+    { "include": "#operator" },
+    { "include": "#identifier" }
+  ],
+  "repository": {
+    "block-comment": {
+      "name": "comment.block.verse",
+      "begin": "<#",
+      "end": "#>",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.comment.begin.verse" }
+      },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.comment.end.verse" }
+      },
+      "patterns": [
+        { "include": "#block-comment" }
+      ]
+    },
+    "line-comment": {
+      "name": "comment.line.number-sign.verse",
+      "begin": "#(?!>)",
+      "end": "$",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.comment.verse" }
+      }
+    },
+    "string": {
+      "name": "string.quoted.double.verse",
+      "begin": "\"",
+      "end": "\"",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.string.begin.verse" }
+      },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.string.end.verse" }
+      },
+      "patterns": [
+        {
+          "name": "constant.character.escape.verse",
+          "match": "\\\\[tnr\"'\\\\{}\\[\\]<>&~#]"
+        },
+        {
+          "name": "meta.interpolation.verse",
+          "begin": "(?<!\\\\)\\{",
+          "end": "\\}",
+          "beginCaptures": {
+            "0": { "name": "punctuation.section.interpolation.begin.verse" }
+          },
+          "endCaptures": {
+            "0": { "name": "punctuation.section.interpolation.end.verse" }
+          },
+          "patterns": [
+            { "include": "#block-comment" },
+            { "include": "#line-comment" },
+            { "include": "#string" },
+            { "include": "#number" },
+            { "include": "#keyword-operator" },
+            { "include": "#type-builtin" },
+            { "include": "#constant-language" },
+            { "include": "#operator" },
+            { "include": "#identifier" }
+          ]
+        }
+      ]
+    },
+    "char": {
+      "name": "string.quoted.single.verse",
+      "match": "'(?:[^'\\\\]|\\\\[tnr\"'\\\\])'",
+      "captures": {
+        "0": { "name": "string.quoted.single.verse" }
+      }
+    },
+    "path-literal": {
+      "name": "string.unquoted.path.verse",
+      "match": "/[A-Za-z0-9_.@/-]+"
+    },
+    "number": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.verse",
+          "match": "-?\\b\\d+\\.\\d+(?:[eE][+-]?\\d+)?\\b"
+        },
+        {
+          "name": "constant.numeric.float.scientific.verse",
+          "match": "-?\\b\\d+[eE][+-]?\\d+\\b"
+        },
+        {
+          "name": "constant.numeric.hex.verse",
+          "match": "\\b0[xX][0-9A-Fa-f]+\\b"
+        },
+        {
+          "name": "constant.numeric.octal.verse",
+          "match": "\\b0[oO][0-7]+\\b"
+        },
+        {
+          "name": "constant.numeric.unicode.verse",
+          "match": "\\b0[uU][0-9A-Fa-f]+\\b"
+        },
+        {
+          "name": "constant.numeric.integer.verse",
+          "match": "-?\\b\\d+\\b"
+        }
+      ]
+    },
+    "specifier": {
+      "name": "storage.modifier.verse",
+      "match": "<(?:public|private|protected|internal|abstract|final|castable|concrete|unique|persistable|override|constructor|closed|open|computes|reads|transacts|decides|allocates|suspends)>"
+    },
+    "keyword-storage": {
+      "patterns": [
+        {
+          "name": "storage.type.verse",
+          "match": "\\b(?:struct|enum|class|interface|var)\\b"
+        }
+      ]
+    },
+    "keyword-control": {
+      "name": "keyword.control.verse",
+      "match": "\\b(?:if|then|else|for|loop|break|case|return|defer|profile|sync|race|rush|branch|spawn)\\b"
+    },
+    "keyword-operator": {
+      "name": "keyword.other.verse",
+      "match": "\\b(?:and|or|not|set|where|subtype|block)\\b"
+    },
+    "type-builtin": {
+      "name": "support.type.primitive.verse",
+      "match": "\\b(?:int|rational|float|logic|char|char32|string|type|any|void)\\b"
+    },
+    "constant-language": {
+      "name": "constant.language.verse",
+      "match": "\\b(?:true|false)\\b"
+    },
+    "constant-numeric-named": {
+      "name": "constant.language.numeric.verse",
+      "match": "\\b(?:PiFloat|Inf|NaN)\\b"
+    },
+    "type-declaration": {
+      "comment": "Matches: TypeName := struct/enum/class/interface:",
+      "match": "^(\\s*)([a-z][A-Za-z0-9_]*)\\s*(:=)\\s*(struct|enum|class|interface)\\b",
+      "captures": {
+        "2": { "name": "entity.name.type.verse" },
+        "3": { "name": "keyword.operator.assignment.verse" },
+        "4": { "name": "storage.type.verse" }
+      }
+    },
+    "function-declaration": {
+      "comment": "Matches: FunctionName(... or (ReceiverType).MethodName(",
+      "match": "\\b([A-Z][A-Za-z0-9_]*)\\s*(?=<[^>]*>\\s*\\(|\\()",
+      "captures": {
+        "1": { "name": "entity.name.function.verse" }
+      }
+    },
+    "operator": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.verse",
+          "match": ":="
+        },
+        {
+          "name": "keyword.operator.arrow.verse",
+          "match": "=>"
+        },
+        {
+          "name": "keyword.operator.arrow.verse",
+          "match": "->"
+        },
+        {
+          "name": "keyword.operator.range.verse",
+          "match": "\\.\\."
+        },
+        {
+          "name": "keyword.operator.assignment.compound.verse",
+          "match": "[+\\-*/]="
+        },
+        {
+          "name": "keyword.operator.comparison.verse",
+          "match": "<>"
+        },
+        {
+          "name": "keyword.operator.comparison.verse",
+          "match": "[<>]=?"
+        },
+        {
+          "name": "keyword.operator.comparison.verse",
+          "match": "(?<![:<>!])=(?![>=])"
+        },
+        {
+          "name": "keyword.operator.arithmetic.verse",
+          "match": "[+\\-*/%]"
+        },
+        {
+          "name": "keyword.operator.query.verse",
+          "match": "\\?"
+        },
+        {
+          "name": "keyword.operator.type-annotation.verse",
+          "match": ":"
+        },
+        {
+          "name": "keyword.operator.member.verse",
+          "match": "\\."
+        },
+        {
+          "name": "keyword.operator.catch-all.verse",
+          "match": "\\b_\\b"
+        }
+      ]
+    },
+    "identifier": {
+      "patterns": [
+        {
+          "name": "variable.other.verse",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+        }
+      ]
+    }
+  }
+}
