@@ -2,8 +2,9 @@
   "name": "verse-highlighter",
   "displayName": "Verse Language",
   "description": "Syntax highlighting for the Verse programming language",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "lucasdower",
+  "icon": "images/verse.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/LucasDower/VerseHighlighter"

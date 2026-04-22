@@ -13,3 +13,7 @@ Syntax highlighting for the [Verse programming language](https://verselang.githu
 ## Usage
 
 Files with a `.verse` extension are automatically highlighted. To use the bundled theme, open the Command Palette (`Ctrl+Shift+P`) and select **Preferences: Color Theme → Verse Dark**.
+
+## Example
+
+![](images/snapshot.webp)
